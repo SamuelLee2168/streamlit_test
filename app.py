@@ -22,7 +22,7 @@ st.markdown('August 13th, 2021, by Samuel Lee')
 st.subheader('Introduction')
 
 games = pd.read_csv("android-games.csv")
-st.dataframe(pd.DataFrame({"test1":[5,4,2],"test2":[532,5,2]}))
+
 st.markdown("In this article, we will be looking at a dataset of the top rated games in the google play store. We will ask questions about them to find some interesting observations, and analyze the data of the games.")
 
 st.subheader('The Top Rated Games')
@@ -72,7 +72,7 @@ st.subheader('The Best Categories of Games')
 st.markdown("The highest downloaded games don't seem to have any common categories. To find the most successful categories, let's plot the average amount of installs for each category!")
 
 attribute = 'float installs'
-category_installs = games.sort_values(attribute,ascending=False).groupby('category').mean().reset_index().sort_values(attribute,ascending=False)
+category_installs = games[[attribute,'category']].sort_values(attribute,ascending=False).groupby('category').mean().reset_index().sort_values(attribute,ascending=False)
 category_total_installs_chart = px.bar(category_installs,x='category',y=attribute)
 st.plotly_chart(category_total_installs_chart)
 
@@ -80,7 +80,7 @@ st.markdown("GAME ARCADE, GAME CASUAL, and GAME ACTION have the most installs, w
 
 st.markdown("Now let's plot the average amount of percent growth in 30 days for each category to see which categories grow the fastest.")
 attribute2 = 'growth (30 days)'
-category_growth = games.sort_values(attribute2,ascending=False).groupby('category').mean().reset_index().sort_values(attribute2,ascending=False)
+category_growth = games[[attribute2,'category']].sort_values(attribute2,ascending=False).groupby('category').mean().reset_index().sort_values(attribute2,ascending=False)
 category_growth_chart = px.bar(category_growth,x='category',y=attribute2) 
 st.plotly_chart(category_growth_chart)
 
@@ -103,7 +103,7 @@ st.markdown("This is often a problem when we take the average of something. One 
 st.markdown("To solve this problem, we can plot the median of the growth of each category instead of the average.")
 
 attribute3 = 'growth (30 days)'
-category_growth = games.sort_values(attribute2,ascending=False).groupby('category').median().reset_index().sort_values(attribute2,ascending=False)
+category_growth = games[[attribute3,'category']].sort_values(attribute2,ascending=False).groupby('category').median().reset_index().sort_values(attribute2,ascending=False)
 category_median_growth = px.bar(category_growth,x='category',y=attribute2)
 st.plotly_chart(category_median_growth)
 
